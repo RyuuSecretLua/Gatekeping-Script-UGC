@@ -51,13 +51,17 @@ Section:CreateToggle('Anti AFK', false, function(v)
 end)
 
 local Credits = Window:NewSection('Credits')
-Credits:CreateButton('Copy YouTube', function()
-	setclipboard('https://youtube.com/@lostryuu')
-end)
-Credits:CreateButton('Copy Discord', function()
-	setclipboard('https://discord.gg/XWmjmtUmk')
+Credits:CreateButton('Copy Ryuu YouTube', function()
+	setclipboard('https://youtube.com/@justcallmeryuu')
 end)
 
+Credits:CreateButton('Copy Fier Team Discord', function()
+	setclipboard('https://discord.gg/vNtv2qNrH')
+end)
+
+Credits:CreateButton('Copy Fier YouTube', function()
+	setclipboard('https://youtube.com/@itsfier?si=QkKZ2tCWqDMK14wU')
+end)
 local fake = Instance.new("BindableEvent")
 player.Idled:Connect(function()
 	if antiAfk then
@@ -66,7 +70,7 @@ player.Idled:Connect(function()
 end)
 
 while true do
-	task.wait(60)
+	task.wait()
 	if antiAfk then
 		fake:Fire()
 	end
