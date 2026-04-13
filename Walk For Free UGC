@@ -1,0 +1,73 @@
+local Players = game:GetService("Players")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+player.CharacterAdded:Connect(function(c)
+	character = c
+	rootPart = c:WaitForChild("HumanoidRootPart")
+end)
+
+local infinitePoint = false
+local antiAfk = false
+local lastPos = rootPart.CFrame
+
+RunService.Heartbeat:Connect(function()
+	if infinitePoint then
+		if (rootPart.Position - lastPos.Position).Magnitude > 200 then
+			rootPart.CFrame = lastPos
+		else
+			lastPos = rootPart.CFrame
+		end
+
+		local pad = workspace:FindFirstChild("Pads") and workspace.Pads:FindFirstChild("Teleporter")
+		if pad then
+			local ti = pad:FindFirstChild("TouchInterest")
+			if ti then
+				firetouchinterest(rootPart, pad, 0)
+				firetouchinterest(rootPart, pad, 1)
+			end
+		end
+	end
+end)
+
+local HttpGetContent = game:HttpGet('https://raw.githubusercontent.com/oxireun/User/refs/heads/main/Oxireunuilibrary.lua')
+local Library = loadstring(HttpGetContent)()
+local Window = Library:NewWindow('Walk For Free UGC')
+local Section = Window:NewSection('Main')
+
+Section:CreateToggle('Infinite Point', false, function(v)
+	infinitePoint = v
+	if v then
+		lastPos = rootPart.CFrame
+	end
+end)
+
+Section:CreateToggle('Anti AFK', false, function(v)
+	antiAfk = v
+end)
+
+local Credits = Window:NewSection('Credits')
+Credits:CreateButton('Copy YouTube', function()
+	setclipboard('https://youtube.com/@lostryuu')
+end)
+Credits:CreateButton('Copy Discord', function()
+	setclipboard('https://discord.gg/XWmjmtUmk')
+end)
+
+local fake = Instance.new("BindableEvent")
+player.Idled:Connect(function()
+	if antiAfk then
+		fake:Fire()
+	end
+end)
+
+while true do
+	task.wait(60)
+	if antiAfk then
+		fake:Fire()
+	end
+end
