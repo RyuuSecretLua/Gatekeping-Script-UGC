@@ -1,0 +1,100 @@
+local VeloraLib=loadstring(game:HttpGet("https://raw.githubusercontent.com/RyuuSecretLua/Library.lua/refs/heads/main/Yushh"))()
+
+local Window=VeloraLib.new("Anime Fight For Time!")
+
+local Main=Window:AddTab("Main")
+
+local Players=game:GetService("Players")
+local RunService=game:GetService("RunService")
+local lp=Players.LocalPlayer
+
+local AUTOKILL=false
+
+Main:CreateSection("Ahhhhh Furry")
+
+Main:CreateToggle("Auto Kill Player",false,function(v)
+    AUTOKILL=v
+    if v then
+        local range=9e999
+        killConnection=RunService.Heartbeat:Connect(function()
+            if not AUTOKILL then return end
+
+            if lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
+                local cf=lp.Character.HumanoidRootPart.CFrame*CFrame.new(0,0,-1)
+
+                for _,p in pairs(Players:GetPlayers()) do
+                    if p~=lp and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                        p.Character.HumanoidRootPart.CFrame=cf
+                    end
+                end
+            end
+
+            for _,v in pairs(Players:GetPlayers()) do
+                if v~=lp and v.Character and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health>0 and v.Character:FindFirstChild("HumanoidRootPart") then
+                    if lp:DistanceFromCharacter(v.Character.HumanoidRootPart.Position)<=range then
+                        local tool=lp.Character and lp.Character:FindFirstChildOfClass("Tool")
+                        if tool and tool:FindFirstChild("Handle") then
+                            tool:Activate()
+                            for _,part in ipairs(v.Character:GetChildren()) do
+                                if part:IsA("BasePart") then
+                                    firetouchinterest(tool.Handle,part,0)
+                                    firetouchinterest(tool.Handle,part,1)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end)
+    else
+        if killConnection then
+            killConnection:Disconnect()
+        end
+    end
+end)
+
+Main:CreateButton("TP 500X",function()
+    local zone=workspace:FindFirstChild("MushroomZone")
+    if zone then
+        local target=zone:FindFirstChild("500X time")
+        if target and lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
+            for i=1,500 do
+                lp.Character.HumanoidRootPart.CFrame=target.CFrame
+            end
+        end
+    end
+end)
+
+Main:CreateButton("Booster FPS",function()
+    for _,v in pairs(game:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.Material=Enum.Material.Plastic
+            v.Reflectance=0
+        elseif v:IsA("Decal") or v:IsA("Texture") then
+            v:Destroy()
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Lifetime=NumberRange.new(0)
+        end
+    end
+    settings().Rendering.QualityLevel=Enum.QualityLevel.Level01
+end)
+
+local AntiAFK=false
+
+Main:CreateToggle("Anti AFK",false,function(v)
+    AntiAFK=v
+    if v then
+        if not getgenv().AFKConn then
+            getgenv().AFKConn=lp.Idled:Connect(function()
+                game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                task.wait(1)
+                game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            end)
+        end
+    else
+        if getgenv().AFKConn then
+            getgenv().AFKConn:Disconnect()
+            getgenv().AFKConn=nil
+        end
+    end
+end)
