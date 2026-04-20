@@ -1,0 +1,214 @@
+local ScreenGui = Instance.new("ScreenGui")
+local WrapFrame = Instance.new("Frame")
+local MainFrame = Instance.new("Frame")
+local TitleBar = Instance.new("Frame")
+local TitleLabel = Instance.new("TextLabel")
+local CloseBtn = Instance.new("TextButton")
+local ContentFrame = Instance.new("Frame")
+local IdInput = Instance.new("TextBox")
+local GetDiamondBtn = Instance.new("TextButton")
+local LogFrame = Instance.new("ScrollingFrame")
+local LogLayout = Instance.new("UIListLayout")
+
+local Players = game:GetService("Players")
+local lp = Players.LocalPlayer
+
+ScreenGui.Name = "VelocityX"
+ScreenGui.Parent = gethui and gethui() or lp:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- OUTER BORDER FRAME
+WrapFrame.Parent = ScreenGui
+WrapFrame.Position = UDim2.new(0.35, -2, 0.3, -2)
+WrapFrame.Size = UDim2.new(0, 344, 0, 344)
+WrapFrame.BorderSizePixel = 0
+WrapFrame.Active = true
+WrapFrame.Draggable = true
+WrapFrame.ZIndex = 1
+WrapFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+
+local wc = Instance.new("UICorner")
+wc.CornerRadius = UDim.new(0, 12)
+wc.Parent = WrapFrame
+
+local wg = Instance.new("UIGradient")
+wg.Parent = WrapFrame
+wg.Rotation = 0
+wg.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 255, 140)), -- kiri hijau
+	ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 210, 200)),
+	ColorSequenceKeypoint.new(1.00, Color3.fromRGB(0, 140, 255))  -- kanan biru
+})
+
+-- INNER MAIN
+MainFrame.Parent = WrapFrame
+MainFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 18)
+MainFrame.Position = UDim2.new(0, 2, 0, 2)
+MainFrame.Size = UDim2.new(1, -4, 1, -4)
+MainFrame.BorderSizePixel = 0
+MainFrame.ZIndex = 2
+
+local c1 = Instance.new("UICorner")
+c1.CornerRadius = UDim.new(0, 10)
+c1.Parent = MainFrame
+
+-- TITLE BAR
+TitleBar.Parent = MainFrame
+TitleBar.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+TitleBar.Size = UDim2.new(1, 0, 0, 38)
+TitleBar.BorderSizePixel = 0
+TitleBar.ZIndex = 2
+
+local c2 = Instance.new("UICorner")
+c2.CornerRadius = UDim.new(0, 10)
+c2.Parent = TitleBar
+
+TitleLabel.Parent = TitleBar
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.Position = UDim2.new(0, 12, 0, 0)
+TitleLabel.Size = UDim2.new(1, -40, 1, 0)
+TitleLabel.Font = Enum.Font.GothamBold
+TitleLabel.Text = "Velocity X | Make Avatar"
+TitleLabel.TextColor3 = Color3.fromRGB(230, 230, 255)
+TitleLabel.TextSize = 15
+TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+TitleLabel.ZIndex = 2
+
+CloseBtn.Parent = TitleBar
+CloseBtn.BackgroundTransparency = 1
+CloseBtn.Position = UDim2.new(1, -34, 0, 5)
+CloseBtn.Size = UDim2.new(0, 28, 0, 28)
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.Text = "x"
+CloseBtn.TextColor3 = Color3.fromRGB(200, 80, 80)
+CloseBtn.TextSize = 14
+CloseBtn.ZIndex = 2
+CloseBtn.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy()
+end)
+
+-- CONTENT
+ContentFrame.Parent = MainFrame
+ContentFrame.BackgroundTransparency = 1
+ContentFrame.Position = UDim2.new(0, 0, 0, 44)
+ContentFrame.Size = UDim2.new(1, 0, 1, -44)
+ContentFrame.ZIndex = 2
+
+IdInput.Parent = ContentFrame
+IdInput.BackgroundColor3 = Color3.fromRGB(22, 22, 34)
+IdInput.Position = UDim2.new(0, 14, 0, 10)
+IdInput.Size = UDim2.new(1, -28, 0, 36)
+IdInput.BorderSizePixel = 0
+IdInput.Font = Enum.Font.Code
+IdInput.PlaceholderText = "12345, 67890, ..."
+IdInput.PlaceholderColor3 = Color3.fromRGB(90, 90, 120)
+IdInput.Text = ""
+IdInput.TextColor3 = Color3.fromRGB(220, 220, 255)
+IdInput.TextSize = 13
+IdInput.ClearTextOnFocus = false
+IdInput.ZIndex = 2
+
+local c3 = Instance.new("UICorner")
+c3.CornerRadius = UDim.new(0, 7)
+c3.Parent = IdInput
+
+GetDiamondBtn.Parent = ContentFrame
+GetDiamondBtn.BackgroundColor3 = Color3.fromRGB(28, 28, 48)
+GetDiamondBtn.BorderSizePixel = 0
+GetDiamondBtn.Position = UDim2.new(0, 14, 0, 58)
+GetDiamondBtn.Size = UDim2.new(1, -28, 0, 38)
+GetDiamondBtn.Font = Enum.Font.GothamBold
+GetDiamondBtn.Text = "Get Diamond"
+GetDiamondBtn.TextColor3 = Color3.fromRGB(130, 220, 255)
+GetDiamondBtn.TextSize = 13
+GetDiamondBtn.ZIndex = 2
+
+local c4 = Instance.new("UICorner")
+c4.CornerRadius = UDim.new(0, 8)
+c4.Parent = GetDiamondBtn
+
+LogFrame.Parent = ContentFrame
+LogFrame.BackgroundColor3 = Color3.fromRGB(16, 16, 26)
+LogFrame.BorderSizePixel = 0
+LogFrame.Position = UDim2.new(0, 14, 0, 108)
+LogFrame.Size = UDim2.new(1, -28, 1, -120)
+LogFrame.ScrollBarThickness = 4
+LogFrame.ScrollBarImageColor3 = Color3.fromRGB(100, 50, 200)
+LogFrame.ClipsDescendants = true
+LogFrame.ZIndex = 2
+LogFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+local c5 = Instance.new("UICorner")
+c5.CornerRadius = UDim.new(0, 7)
+c5.Parent = LogFrame
+
+local UIPadding = Instance.new("UIPadding")
+UIPadding.Parent = LogFrame
+UIPadding.PaddingLeft = UDim.new(0, 6)
+UIPadding.PaddingTop = UDim.new(0, 4)
+UIPadding.PaddingBottom = UDim.new(0, 4)
+UIPadding.PaddingRight = UDim.new(0, 6)
+
+LogLayout.Parent = LogFrame
+LogLayout.SortOrder = Enum.SortOrder.LayoutOrder
+LogLayout.Padding = UDim.new(0, 2)
+
+local logCount = 0
+
+local function addLog(msg, color)
+	logCount += 1
+
+	local lbl = Instance.new("TextLabel")
+	lbl.Parent = LogFrame
+	lbl.BackgroundTransparency = 1
+	lbl.Size = UDim2.new(1, -4, 0, 18)
+	lbl.Font = Enum.Font.Code
+	lbl.Text = "[" .. os.date("%H:%M:%S") .. "] " .. msg
+	lbl.TextColor3 = color or Color3.fromRGB(200, 200, 230)
+	lbl.TextSize = 11
+	lbl.TextXAlignment = Enum.TextXAlignment.Left
+	lbl.TextWrapped = true
+	lbl.AutomaticSize = Enum.AutomaticSize.Y
+	lbl.LayoutOrder = logCount
+	lbl.ZIndex = 2
+
+	task.defer(function()
+		LogFrame.CanvasSize = UDim2.new(0, 0, 0, LogLayout.AbsoluteContentSize.Y + 8)
+		LogFrame.CanvasPosition = Vector2.new(0, math.huge)
+	end)
+end
+
+local function getIds()
+	local ids = {}
+	for v in IdInput.Text:gmatch("%d+") do
+		local n = tonumber(v)
+		if n then
+			table.insert(ids, n)
+		end
+	end
+	return ids
+end
+
+-- UI DEMO ONLY
+local function getDiamond()
+	local ids = getIds()
+	if #ids == 0 then
+		addLog("Enter ID first.", Color3.fromRGB(255, 200, 80))
+		return
+	end
+
+	addLog("IDs detected: " .. table.concat(ids, ", "), Color3.fromRGB(180, 180, 255))
+	addLog("UI sample ready.", Color3.fromRGB(100, 255, 200))
+end
+
+GetDiamondBtn.MouseButton1Click:Connect(function()
+	GetDiamondBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	task.delay(0.15, function()
+		GetDiamondBtn.TextColor3 = Color3.fromRGB(130, 220, 255)
+	end)
+	task.spawn(getDiamond)
+end)
+
+addLog("Velocity X | Make Avatar loaded.", Color3.fromRGB(200, 150, 255))
+addLog("Webhooks By Alwi", Color3.fromRGB(120, 220, 255))
